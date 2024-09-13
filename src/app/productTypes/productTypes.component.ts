@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import axios from 'axios';
+import { apiHost } from '../../config';
 
 @Component({
   selector: 'app-productTypes',
@@ -13,7 +14,7 @@ import axios from 'axios';
 export class ProductTypesComponent {
   newProductType: string = '';
   productTypes: any[] = [];
-  apiUrl: string = 'http://127.0.0.1:8000/product-types/';
+  apiUrl: string = `${apiHost}/product-types/`;
 
   async ngOnInit() {
     await this.fetchProductTypes();

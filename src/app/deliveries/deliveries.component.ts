@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import axios from 'axios';
+import { apiHost } from '../../config';
 
 @Component({
   selector: 'app-deliveries',
@@ -11,13 +12,14 @@ import axios from 'axios';
 })
 export class DeliveriesComponent {
   products = [];
-  apiUrl: string = 'http://127.0.0.1:8000/inventories/';
-    productTypes: any[] = [];
+  apiUrl: string = `${apiHost}/inventories/`;
+  inventoryApiUrl: string = `${apiHost}/inventories/`;
+  productTypes: any[] = [];
   async ngOnInit() {
-    await this.fetchProductTypes();
+    await this.fetchInventories();
   }
 
-  async fetchProductTypes() {
+  async fetchInventories() {
     try {
       const response = await axios.get(this.apiUrl);
       this.productTypes = response.data.data;
@@ -27,8 +29,15 @@ export class DeliveriesComponent {
     }
   }
 
-  onButtonClick() {
+  async onButtonClick(product: any) {
     console.log('Botón clicado!');
-    alert('¡Botón clicado!');
+    console.log(product);
+    const response = await axios.put(`${this.inventoryApiUrl}${product.serial}/`, {
+      name: product.name,
+      product_type: product.product_type,
+      serial: product.serial,
+      date: product.date,
+      status: "FINISHED",
+  });
   }
 }

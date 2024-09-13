@@ -5,7 +5,7 @@
         <div class="item" *ngFor="let product of productTypes">
             <h3>{{product.name}}</h3>
             <p>{{product.serial}}</p>
-            <button class="deliver-btn" (click)="onButtonClick()" [disabled]="product.status !== 'PENDING'" 
+            <button class="deliver-btn" (click)="onButtonClick(product)" [disabled]="product.status !== 'PENDING'" 
             [ngClass]="{'green-background': product.status !== 'PENDING'}">
                 {{ product.status === 'PENDING' ? 'Enviar' : 'Enviado' }}
             </button>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import axios from 'axios';
+import { apiHost } from '../../config';
 
 @Component({
   selector: 'app-inventories',
@@ -11,17 +12,16 @@ import axios from 'axios';
   styleUrls: ['./inventories.component.css'],
 })
 export class InventoriesComponent {
-    newInventory: string = '';
     inventories: any[] = [];
-    apiUrl: string = 'http://127.0.0.1:8000/product-types/';
-    inventoryApiUrl: string = 'http://127.0.0.1:8000/inventories/';
+    apiUrl: string = `${apiHost}/product-types/`;
+    inventoryApiUrl: string = `${apiHost}/inventories/`;
     productTypes: any[] = [];
 
-    name: string = '';
-    productTypeSelect: string = '';
-    serial: string = '';
+    newInventoryName: string = '';
+    newInventoryProduct: string = '';
+    newInventorySerial: string = '';
     status: string = 'PENDING';
-    date: string = '';
+    newInventoryDate: string = '';
 
     async ngOnInit() {
         await this.fetchProductTypes();
@@ -38,23 +38,13 @@ export class InventoriesComponent {
 
     async onSubmit() {
         try {
-
-            console.log({
-                name: this.name,
-                product_type: this.productTypeSelect,
-                serial: this.serial,
-                date: this.date,
-                status: this.status,
-            });
             const response = await axios.post(this.inventoryApiUrl, {
-                name: this.name,
-                product_type: this.productTypeSelect,
-                serial: this.serial,
-                date: this.date,
+                name: this.newInventoryName,
+                product_type: this.newInventoryProduct,
+                serial: this.newInventoryProduct,
+                date: this.newInventoryDate,
                 status: this.status,
             });
-
-          
     
           if (response.status === 201) {
             alert('Tipo de producto creado correctamente');
